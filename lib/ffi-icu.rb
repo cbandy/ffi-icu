@@ -32,6 +32,7 @@ end
 require "ffi-icu/core_ext/string"
 require "ffi-icu/lib"
 require "ffi-icu/uchar"
+require "ffi-icu/calendar"
 require "ffi-icu/chardet"
 require "ffi-icu/collation"
 require "ffi-icu/transliteration"

@@ -275,5 +275,14 @@ module ICU
     attach_function :ubrk_following,      "ubrk_following#{suffix}",      [:pointer,       :int32_t], :int32_t
     attach_function :ubrk_isBoundary,     "ubrk_isBoundary#{suffix}",     [:pointer,       :int32_t], :int32_t
 
+    #
+    # Calendar
+    #
+    # http://icu-project.org/apiref/icu4c/ucal_8h.html
+    #
+
+    # Locales
+    attach_function :ucal_countAvailable, "ucal_countAvailable#{suffix}", [], :int32_t
+    attach_function :ucal_getAvailable, "ucal_getAvailable#{suffix}", [:int32_t], :string
   end # Lib
 end # ICU
