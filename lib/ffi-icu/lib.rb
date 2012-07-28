@@ -285,16 +285,16 @@ module ICU
 
     # Locales
     attach_function :ucal_countAvailable, "ucal_countAvailable#{suffix}", [], :int32_t
-    attach_function :ucal_getAvailable, "ucal_getAvailable#{suffix}", [:int32_t], :string
+    attach_function :ucal_getAvailable,   "ucal_getAvailable#{suffix}",   [:int32_t], :string
 
     # Timezones
-    attach_function :ucal_getCanonicalTimeZoneID, "ucal_getCanonicalTimeZoneID#{suffix}", [:pointer, :int32_t, :pointer, :int32_t, :pointer, :pointer], :int32_t
-    attach_function :ucal_getDefaultTimeZone, "ucal_getDefaultTimeZone#{suffix}", [:pointer, :int32_t, :pointer], :int32_t
-    attach_function :ucal_getDSTSavings, "ucal_getDSTSavings#{suffix}", [:pointer, :pointer], :int32_t
-    attach_function :ucal_getTZDataVersion, "ucal_getTZDataVersion#{suffix}", [:pointer], :string
-    attach_function :ucal_openCountryTimeZones, "ucal_openCountryTimeZones#{suffix}", [:string, :pointer], :pointer
-    attach_function :ucal_openTimeZoneIDEnumeration, "ucal_openTimeZoneIDEnumeration#{suffix}", [:system_timezone_type, :string, :pointer, :pointer], :pointer
-    attach_function :ucal_openTimeZones, "ucal_openTimeZones#{suffix}", [:pointer], :pointer
-    attach_function :ucal_setDefaultTimeZone, "ucal_setDefaultTimeZone#{suffix}", [:pointer, :pointer], :void
+    attach_function :ucal_getCanonicalTimeZoneID,     "ucal_getCanonicalTimeZoneID#{suffix}",     [:pointer, :int32_t, :pointer, :int32_t, :pointer, :pointer], :int32_t
+    attach_function :ucal_getDefaultTimeZone,         "ucal_getDefaultTimeZone#{suffix}",         [:pointer, :int32_t, :pointer], :int32_t
+    attach_function :ucal_getDSTSavings,              "ucal_getDSTSavings#{suffix}",              [:pointer, :pointer], :int32_t
+    attach_function :ucal_getTZDataVersion,           "ucal_getTZDataVersion#{suffix}",           [:pointer], :string
+    attach_function :ucal_openCountryTimeZones,       "ucal_openCountryTimeZones#{suffix}" ,      [:string, :pointer], :pointer
+    attach_function :ucal_openTimeZoneIDEnumeration,  "ucal_openTimeZoneIDEnumeration#{suffix}",  [:system_timezone_type, :string, :pointer, :pointer], :pointer
+    attach_function :ucal_openTimeZones,              "ucal_openTimeZones#{suffix}",              [:pointer], :pointer
+    attach_function :ucal_setDefaultTimeZone,         "ucal_setDefaultTimeZone#{suffix}",         [:pointer, :pointer], :void
   end # Lib
 end # ICU
