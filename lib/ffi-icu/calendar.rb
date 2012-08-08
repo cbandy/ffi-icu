@@ -9,7 +9,9 @@ module ICU
 
       def canonical_timezone_identifier(timezone)
         is_system_id = FFI::MemoryPointer.new(:int8_t)
-        result = UCharPointer.new(256)
+        length = 256
+        result = UCharPointer.new(length)
+
         Lib.check_error do |error|
           length = Lib.ucal_getCanonicalTimeZoneID(
             UCharPointer.from_string(timezone), timezone.jlength,
@@ -17,8 +19,9 @@ module ICU
             is_system_id,
             error
           )
-          result.string(length)
         end
+
+        result.string(length)
       end
 
       def country_timezones(country)
@@ -26,18 +29,22 @@ module ICU
           Lib.ucal_openCountryTimeZones(country, error)
         end
 
-        result = Lib.enum_ptr_to_array(enum_ptr)
-        Lib.uenum_close(enum_ptr)
-
-        result
+        begin
+          Lib.enum_ptr_to_array(enum_ptr)
+        ensure
+          Lib.uenum_close(enum_ptr)
+        end
       end
 
       def default_timezone
-        result = UCharPointer.new(256)
+        length = 256
+        result = UCharPointer.new(length)
+
         Lib.check_error do |error|
           length = Lib.ucal_getDefaultTimeZone(result, result.size, error)
-          result.string(length)
         end
+
+        result.string(length)
       end
 
       def default_timezone=(zone)
@@ -63,19 +70,21 @@ module ICU
           Lib.ucal_openTimeZoneIDEnumeration(type, region, offset, error)
         end
 
-        result = Lib.enum_ptr_to_array(enum_ptr)
-        Lib.uenum_close(enum_ptr)
-
-        result
+        begin
+          Lib.enum_ptr_to_array(enum_ptr)
+        ensure
+          Lib.uenum_close(enum_ptr)
+        end
       end
 
       def timezones
         enum_ptr = Lib.check_error { |error| Lib.ucal_openTimeZones(error) }
 
-        result = Lib.enum_ptr_to_array(enum_ptr)
-        Lib.uenum_close(enum_ptr)
-
-        result
+        begin
+          Lib.enum_ptr_to_array(enum_ptr)
+        ensure
+          Lib.uenum_close(enum_ptr)
+        end
       end
     end
   end
