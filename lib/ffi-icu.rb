@@ -31,10 +31,12 @@ end
 
 require "ffi-icu/core_ext/string"
 require "ffi-icu/lib"
+require "ffi-icu/lib/util"
 require "ffi-icu/uchar"
 require "ffi-icu/calendar"
 require "ffi-icu/chardet"
 require "ffi-icu/collation"
+require "ffi-icu/locale"
 require "ffi-icu/transliteration"
 require "ffi-icu/normalization"
 require "ffi-icu/break_iterator"
