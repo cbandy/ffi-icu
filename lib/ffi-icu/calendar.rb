@@ -9,19 +9,16 @@ module ICU
 
       def canonical_timezone_identifier(timezone)
         is_system_id = FFI::MemoryPointer.new(:int8_t)
-        length = 256
-        result = UCharPointer.new(length)
+        timezone = UCharPointer.from_string(timezone + "\0")
 
-        Lib.check_error do |error|
-          length = Lib.ucal_getCanonicalTimeZoneID(
-            UCharPointer.from_string(timezone), timezone.jlength,
-            result, result.size,
+        Lib::Util.read_uchar_buffer(256) do |result, error|
+          Lib.ucal_getCanonicalTimeZoneID(
+            timezone, -1,
+            result, result.size / UCharPointer::TYPE_SIZE,
             is_system_id,
             error
           )
         end
-
-        result.string(length)
       end
 
       def country_timezones(country)
@@ -37,14 +34,9 @@ module ICU
       end
 
       def default_timezone
-        length = 256
-        result = UCharPointer.new(length)
-
-        Lib.check_error do |error|
-          length = Lib.ucal_getDefaultTimeZone(result, result.size, error)
+        Lib::Util.read_uchar_buffer(256) do |result, error|
+          Lib.ucal_getDefaultTimeZone(result, result.size, error)
         end
-
-        result.string(length)
       end
 
       def default_timezone=(zone)
