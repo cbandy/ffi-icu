@@ -382,8 +382,11 @@ module ICU
     attach_function :ucal_getDSTSavings,              "ucal_getDSTSavings#{suffix}",              [:pointer, :pointer], :int32_t
     attach_function :ucal_getTZDataVersion,           "ucal_getTZDataVersion#{suffix}",           [:pointer], :string
     attach_function :ucal_openCountryTimeZones,       "ucal_openCountryTimeZones#{suffix}" ,      [:string, :pointer], :pointer
-    attach_function :ucal_openTimeZoneIDEnumeration,  "ucal_openTimeZoneIDEnumeration#{suffix}",  [:system_timezone_type, :string, :pointer, :pointer], :pointer
     attach_function :ucal_openTimeZones,              "ucal_openTimeZones#{suffix}",              [:pointer], :pointer
     attach_function :ucal_setDefaultTimeZone,         "ucal_setDefaultTimeZone#{suffix}",         [:pointer, :pointer], :void
+
+    if Gem::Version.new('4.8') <= Gem::Version.new(self.version)
+      attach_function :ucal_openTimeZoneIDEnumeration, "ucal_openTimeZoneIDEnumeration#{suffix}", [:system_timezone_type, :string, :pointer, :pointer], :pointer
+    end
   end # Lib
 end # ICU

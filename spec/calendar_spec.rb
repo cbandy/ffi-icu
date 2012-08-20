@@ -25,8 +25,13 @@ module ICU
         end
 
         it 'returns a normalized custom identifier' do
-          Calendar.canonical_timezone_identifier('GMT-6').should == 'GMT-06:00'
-          Calendar.canonical_timezone_identifier('GMT+1:15').should == 'GMT+01:15'
+          if Gem::Version.new('4.2') <= Gem::Version.new(Lib.version)
+            Calendar.canonical_timezone_identifier('GMT-6').should == 'GMT-06:00'
+            Calendar.canonical_timezone_identifier('GMT+1:15').should == 'GMT+01:15'
+          else
+            Calendar.canonical_timezone_identifier('GMT-6').should == 'GMT-0600'
+            Calendar.canonical_timezone_identifier('GMT+1:15').should == 'GMT+0115'
+          end
         end
       end
 
@@ -70,21 +75,23 @@ module ICU
         end
       end
 
-      describe 'timezone identifiers' do
-        it 'returns timezones of a particular type' do
-          Calendar.timezone_identifiers(:any).should include 'UTC'
-          Calendar.timezone_identifiers(:canonical).should include 'Factory'
-          Calendar.timezone_identifiers(:canonical_location).should include 'America/Chicago'
-        end
+      if Gem::Version.new('4.8') <= Gem::Version.new(Lib.version)
+        describe 'timezone identifiers' do
+          it 'returns timezones of a particular type' do
+            Calendar.timezone_identifiers(:any).should include 'UTC'
+            Calendar.timezone_identifiers(:canonical).should include 'Factory'
+            Calendar.timezone_identifiers(:canonical_location).should include 'America/Chicago'
+          end
 
-        it 'filters timezones by country' do
-          Calendar.timezone_identifiers(:any, 'US').should_not include 'UTC'
-          Calendar.timezone_identifiers(:canonical, 'DE').should == ['Europe/Berlin']
-        end
+          it 'filters timezones by country' do
+            Calendar.timezone_identifiers(:any, 'US').should_not include 'UTC'
+            Calendar.timezone_identifiers(:canonical, 'DE').should == ['Europe/Berlin']
+          end
 
-        it 'filters timezones by offset in milliseconds' do
-          Calendar.timezone_identifiers(:any, nil, -10_800_000).should include 'BET'
-          Calendar.timezone_identifiers(:canonical, nil, 3_600_000).should include 'Europe/Berlin'
+          it 'filters timezones by offset in milliseconds' do
+            Calendar.timezone_identifiers(:any, nil, -10_800_000).should include 'BET'
+            Calendar.timezone_identifiers(:canonical, nil, 3_600_000).should include 'Europe/Berlin'
+          end
         end
       end
     end
