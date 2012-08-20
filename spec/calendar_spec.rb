@@ -63,13 +63,15 @@ module ICU
       describe 'default timezone' do
         subject { Calendar.default_timezone }
 
+        let(:timezone) do
+          timezones = Calendar.timezones
+          timezones.delete(Calendar.default_timezone)
+          timezones.respond_to?(:sample) ? timezones.sample : timezones.choice
+        end
+
         it { should be_a String }
 
         it 'can be assigned' do
-          timezones = Calendar.timezones
-          timezones.delete(Calendar.default_timezone)
-          timezone = timezones.sample
-
           (Calendar.default_timezone = timezone).should == timezone
           Calendar.default_timezone.should == timezone
         end
